@@ -1,0 +1,27 @@
+name: ZAP API Scan
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  zap_scan:
+    runs-on: ubuntu-latest
+    name: Scan API with ZAP
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: ZAP API Scan
+        uses: zaproxy/action-api-scan@v0.8.0
+        with:
+          # Define la URL de la definición de tu API (OpenAPI)
+          target: https://petstore.swagger.io/v2/swagger.json
+          
+          # Especifica el formato del archivo
+          format: openapi
+
+          # Opcional: Establece el nivel de riesgo para que el pipeline falle
+          # zap_options: -config api.openapi.path=https://petstore.swagger.io/v2/swagger.json
+          # zap_options: -config api.openapi.failOnError=true
